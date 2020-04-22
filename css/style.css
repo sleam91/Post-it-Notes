@@ -19,13 +19,14 @@ nav{
     justify-content: space-around;
     border-bottom: 10px solid rgb(184, 184, 184);
     background-color: rgb(230, 230, 230);
+    border-radius: 3px;
 }
 
 img:first-of-type{
     margin-left: 3rem;
 }
 img:last-of-type{
-    margin-right: 4rem;
+    margin-right: 3rem;
 }
 img{
     width: 10%;
@@ -63,3 +64,31 @@ main {
     cursor: pointer;
 }
 
+.currentCard{
+    grid-area: 1/1/4/4;
+    border-radius: 3px;
+    box-shadow: 4px 4px 5px 0px rgba(135,135,135,1);
+    background-color: dodgerblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+textarea {
+    height: 85%;
+    width: 80%;
+    
+    align-self: center;
+    text-align: center;
+    color: white;
+    font-family: cursive;
+    font-size: x-large;
+    font-weight: 900;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    box-shadow: none;
+    overflow:hidden
+}
