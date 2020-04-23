@@ -1,11 +1,9 @@
 let main = document.querySelector("main")
 let totalCards = main.innerHTML
-// let fullCards = '<div class="card zero"></div><div class="card one"></div><div class="card two"></div><div class="card three"></div><div class="card four"></div><div class="card five"></div><div class="card six"></div><div class="card seven"></div><div class="card eight"></div><div class="card nine"></div><div class="card ten"></div><div class="card eleven"></div>'
 let textInCards = ["", "", "", "", "", "", "", "", "", "", "", ""]
 let currentCardPosition = -1
-let currentCardTotal = -1
 let currentCard = ""
-let allColors = ['red', 'green', 'blue', 'black', 'orange', 'grey', 'purple', 'lightblue', 'cyan', 'magenta', 'lightgreen','violet'];
+let allColors = ['red', 'green', 'blue', 'black', 'orange', 'grey', 'purple', 'lightblue', 'cyan', 'magenta', 'lightgreen', 'violet','olive','teal','plum'];
 let cards = document.getElementsByClassName("card")
 
 
@@ -13,13 +11,18 @@ let rutnet = document.getElementById("rutnet")
 let create = document.getElementById("create")
 let trash = document.getElementById("trash")
 let marker = document.getElementById("marker")
+let penInPapper = document.getElementById("penInPapper")
 
 let showCurrentCard = event => {
+    main.style.gridTemplateRows = "repeat(4, 1fr)"
+    main.style.gridTemplateColumns = "repeat(3, 1fr)"
+    main.style.gridColumnGap = "20px"
+    main.style.gridRowGap = "30px"
     create.style.display = "none"
     trash.style.display = "inline"
     let name = event.target.className.substring(5)
     let color = event.target.style.backgroundColor
-    
+
     currentCardPosition = wordToNumber(name)
     currentCard = `<div class="currentCard ${numberToWord(currentCardPosition)}"><textarea>${textInCards[currentCardPosition]}</textarea></div>`
 
@@ -47,7 +50,7 @@ create.addEventListener("click", event => {
 
         let cardElement = document.createElement("div")
 
-        let cardNumber=availableCards.pop()
+        let cardNumber = availableCards.pop()
 
         cardElement.setAttribute("class", "card " + cardNumber)
 
@@ -61,14 +64,18 @@ create.addEventListener("click", event => {
 })
 
 rutnet.addEventListener("click", event => {
+    main.style.gridTemplateRows = "repeat(4, 1fr)"
+    main.style.gridTemplateColumns = "repeat(3, 1fr)"
+    main.style.gridColumnGap = "20px"
+    main.style.gridRowGap = "30px"
     let textarea = document.querySelector("textarea")
     let text = textarea.value
     textInCards[currentCardPosition] = text
-    let color=main.getElementsByClassName("currentCard")[0].style.backgroundColor
-    let cardNumber=numberToWord(currentCardPosition)
+    let color = main.getElementsByClassName("currentCard")[0].style.backgroundColor
+    let cardNumber = numberToWord(currentCardPosition)
     currentCardPosition = -1
     main.innerHTML = totalCards;
-    main.getElementsByClassName(cardNumber)[0].style.backgroundColor=color
+    main.getElementsByClassName(cardNumber)[0].style.backgroundColor = color
     create.style.display = "inline"
     trash.style.display = "none"
     resetEventListener()
@@ -91,6 +98,31 @@ trash.addEventListener("click", event => {
 marker.addEventListener("click", event => {
     getNewRandomColor(numberToWord(currentCardPosition))
     main.querySelector("textarea").focus()
+})
+
+
+penInPapper.addEventListener("click", event => {
+
+
+    main.style.gridTemplateRows = "repeat(12, 1fr)"
+    main.style.gridTemplateColumns = "1fr"
+    main.style.gridColumnGap = "0"
+    main.style.gridRowGap = "12px"
+
+    if (trash.style.display === "inline") {
+        let textarea = document.querySelector("textarea")
+        let text = textarea.value
+        textInCards[currentCardPosition] = text
+        let color = main.getElementsByClassName("currentCard")[0].style.backgroundColor
+        let cardNumber = numberToWord(currentCardPosition)
+        currentCardPosition = -1
+        main.innerHTML = totalCards;
+        main.getElementsByClassName(cardNumber)[0].style.backgroundColor = color
+        create.style.display = "inline"
+        trash.style.display = "none"
+        resetEventListener()
+    }
+ 
 })
 
 function numberToWord(number) {
