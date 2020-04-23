@@ -1,6 +1,7 @@
 let main = document.querySelector("main")
 let totalCards = main.innerHTML
 let textInCards = ["", "", "", "", "", "", "", "", "", "", "", ""]
+let fontColorInCards = ["", "", "", "", "", "", "", "", "", "", "", ""]
 let currentCardPosition = -1
 let currentCard = ""
 let allColors = ['red', 'green', 'blue', 'black', 'orange', 'grey', 'purple', 'lightblue', 'cyan', 'magenta', 'lightgreen', 'violet','olive','teal','plum'];
@@ -12,6 +13,7 @@ let create = document.getElementById("create")
 let trash = document.getElementById("trash")
 let marker = document.getElementById("marker")
 let penInPapper = document.getElementById("penInPapper")
+let pen = document.getElementById("pen")
 
 let showCurrentCard = event => {
     main.style.gridTemplateRows = "repeat(4, 1fr)"
@@ -24,11 +26,12 @@ let showCurrentCard = event => {
     let color = event.target.style.backgroundColor
 
     currentCardPosition = wordToNumber(name)
-    currentCard = `<div class="currentCard ${numberToWord(currentCardPosition)}"><textarea>${textInCards[currentCardPosition]}</textarea></div>`
+    currentCard = `<div class="currentCard ${numberToWord(currentCardPosition)}"><textarea style="color: white;">${textInCards[currentCardPosition]}</textarea></div>`
 
     main.innerHTML = currentCard
     main.getElementsByClassName("currentCard")[0].style.backgroundColor = color
     main.querySelector("textarea").focus()
+    main.querySelector("textarea").style.color=fontColorInCards[currentCardPosition]
 }
 
 
@@ -68,38 +71,11 @@ rutnet.addEventListener("click", event => {
     main.style.gridTemplateColumns = "repeat(3, 1fr)"
     main.style.gridColumnGap = "20px"
     main.style.gridRowGap = "30px"
-    let textarea = document.querySelector("textarea")
-    let text = textarea.value
-    textInCards[currentCardPosition] = text
-    let color = main.getElementsByClassName("currentCard")[0].style.backgroundColor
-    let cardNumber = numberToWord(currentCardPosition)
-    currentCardPosition = -1
-    main.innerHTML = totalCards;
-    main.getElementsByClassName(cardNumber)[0].style.backgroundColor = color
-    create.style.display = "inline"
-    trash.style.display = "none"
-    resetEventListener()
+
+    goBacktoMainPage()
+
+
 })
-
-trash.addEventListener("click", event => {
-    let deleteCard = document.getElementsByClassName(numberToWord(currentCardPosition));
-
-    textInCards[currentCardPosition] = ""
-    availableCards.push(numberToWord(currentCardPosition))
-    currentCardPosition = -1
-    main.innerHTML = totalCards;
-    deleteCard[0].remove()
-    totalCards = main.innerHTML;
-    create.style.display = "inline"
-    trash.style.display = "none"
-    resetEventListener()
-})
-
-marker.addEventListener("click", event => {
-    getNewRandomColor(numberToWord(currentCardPosition))
-    main.querySelector("textarea").focus()
-})
-
 
 penInPapper.addEventListener("click", event => {
 
@@ -110,20 +86,49 @@ penInPapper.addEventListener("click", event => {
     main.style.gridRowGap = "12px"
 
     if (trash.style.display === "inline") {
-        let textarea = document.querySelector("textarea")
-        let text = textarea.value
-        textInCards[currentCardPosition] = text
-        let color = main.getElementsByClassName("currentCard")[0].style.backgroundColor
-        let cardNumber = numberToWord(currentCardPosition)
-        currentCardPosition = -1
-        main.innerHTML = totalCards;
-        main.getElementsByClassName(cardNumber)[0].style.backgroundColor = color
-        create.style.display = "inline"
-        trash.style.display = "none"
-        resetEventListener()
+        goBacktoMainPage()
     }
  
 })
+
+trash.addEventListener("click", event => {
+    let deleteCard = document.getElementsByClassName(numberToWord(currentCardPosition));
+
+    textInCards[currentCardPosition] = ""
+    availableCards.push(numberToWord(currentCardPosition))
+    currentCardPosition = -1
+    
+    main.querySelector("textarea").style.color="white"
+    
+    main.innerHTML = totalCards;
+    
+    deleteCard[0].remove()
+    totalCards = main.innerHTML;
+    create.style.display = "inline"
+    trash.style.display = "none"
+    
+    resetEventListener()
+    console.log("after eventlistener")
+    
+})
+
+marker.addEventListener("click", event => {
+    getNewRandomColor(numberToWord(currentCardPosition))
+    main.querySelector("textarea").focus()
+})
+
+
+
+
+
+pen.addEventListener("click", event => {
+    let textarea = document.querySelector("textarea")
+    textarea.style.color=allColors[Math.floor(Math.random() * allColors.length)]
+   
+ 
+})
+
+
 
 function numberToWord(number) {
     switch (number) {
@@ -191,4 +196,20 @@ function wordToNumber(word) {
 function getNewRandomColor(name) {
     let rand = allColors[Math.floor(Math.random() * allColors.length)];
     document.getElementsByClassName(name)[0].style.backgroundColor = rand;
+}
+
+function goBacktoMainPage(){
+    let textarea = document.querySelector("textarea")
+    let text = textarea.value
+    textInCards[currentCardPosition] = text
+    let cardNumber = numberToWord(currentCardPosition)
+    let color = main.getElementsByClassName("currentCard")[0].style.backgroundColor
+    let fontColor=textarea.style.color
+    fontColorInCards[currentCardPosition]=fontColor
+    currentCardPosition = -1
+    main.innerHTML = totalCards;
+    main.getElementsByClassName(cardNumber)[0].style.backgroundColor = color
+    create.style.display = "inline"
+    trash.style.display = "none"
+    resetEventListener()
 }
