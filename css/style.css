@@ -22,6 +22,10 @@ nav{
     border-radius: 3px;
 }
 
+#trash{
+    display: none;
+}
+
 img:first-of-type{
     margin-left: 3rem;
 }
@@ -90,5 +94,6 @@ textarea {
     resize: none;
     outline: none;
     box-shadow: none;
-    overflow:hidden
+    overflow:hidden;
+
 }
